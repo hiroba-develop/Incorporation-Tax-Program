@@ -50,6 +50,8 @@ async function buildPdf(result: SimulationResult, inputs: DetailFormInputs): Pro
 
     const splitPoints = [0, ...breakPxList, canvas.height];
     const segments: Array<{ startPx: number; endPx: number }> = [];
+    const title = `法人化シミュレーション_${new Date().toISOString().slice(0, 10)}`;
+    pdf.setProperties({ title });
 
     for (let i = 0; i < splitPoints.length - 1; i++) {
       let segStart = splitPoints[i];
@@ -118,46 +120,57 @@ function PreviewModal({ blobUrl, fileName, onDownload, onClose }: PreviewModalPr
           borderBottom: "1px solid #334155",
           flexShrink: 0,
         }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#94a3b8" strokeWidth={2}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#94a3b8" strokeWidth={2} style={{ flexShrink: 0 }}>
               <path strokeLinecap="round" strokeLinejoin="round"
                 d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
             </svg>
-            <span style={{ color: "#cbd5e1", fontSize: 14, fontWeight: 600 }}>{fileName}</span>
+            <span style={{ color: "#cbd5e1", fontSize: 14, fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              {fileName}
+            </span>
           </div>
-          <div style={{ display: "flex", gap: 10 }}>
+          <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
             <button
               onClick={onDownload}
-              style={{
-                display: "flex", alignItems: "center", gap: 6,
-                backgroundColor: "#2563eb", color: "#fff",
-                border: "none", borderRadius: 8,
-                padding: "8px 16px", fontSize: 13, fontWeight: 600,
-                cursor: "pointer",
-              }}
+              className="flex items-center gap-1.5 sm:gap-2 bg-blue-600 hover:bg-blue-700 text-white border-0 rounded-lg px-3 py-2 sm:px-4 text-xs sm:text-sm font-semibold cursor-pointer transition-colors"
             >
               <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round"
                   d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
-              保存
+              <span className="hidden sm:inline">保存</span>
             </button>
             <button
               onClick={onClose}
-              style={{
-                display: "flex", alignItems: "center", gap: 6,
-                backgroundColor: "#475569", color: "#fff",
-                border: "none", borderRadius: 8,
-                padding: "8px 14px", fontSize: 13, fontWeight: 600,
-                cursor: "pointer",
-              }}
+              className="flex items-center gap-1.5 sm:gap-2 bg-slate-600 hover:bg-slate-700 text-white border-0 rounded-lg px-3 py-2 sm:px-4 text-xs sm:text-sm font-semibold cursor-pointer transition-colors"
             >
               <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
-              閉じる
+              <span className="hidden sm:inline">閉じる</span>
             </button>
           </div>
+        </div>
+
+        {/* 注意書きバー */}
+        <div style={{
+          backgroundColor: "#1e3a5f",
+          borderBottom: "1px solid #2563eb",
+          padding: "6px 16px",
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+          flexShrink: 0,
+        }}>
+          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="#60a5fa" strokeWidth={2} style={{ flexShrink: 0 }}>
+            <path strokeLinecap="round" strokeLinejoin="round"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span style={{ color: "#93c5fd", fontSize: 11 }}>
+            ビューア内のダウンロードボタンはファイル名が文字化けします。上の
+            <strong style={{ color: "#bfdbfe" }}>「保存」</strong>
+            ボタンをご利用ください。
+          </span>
         </div>
 
         {/* PDF iframe */}
@@ -210,7 +223,8 @@ export default function PdfExportButton({ result, inputs }: PdfExportButtonProps
       <button
         onClick={handlePreview}
         disabled={isGenerating}
-        className="flex items-center gap-2 bg-slate-700 hover:bg-slate-800 disabled:bg-slate-400 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+        className="flex items-center gap-2 bg-slate-700 hover:bg-slate-800 disabled:bg-slate-400 text-white px-2 py-2 sm:px-4 rounded-lg text-sm font-medium transition-colors flex-shrink-0"
+        title="PDF出力"
       >
         {isGenerating ? (
           <>
@@ -218,17 +232,16 @@ export default function PdfExportButton({ result, inputs }: PdfExportButtonProps
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
-            <span>生成中...</span>
+            <span className="sm:hidden">...</span>
+            <span className="hidden sm:inline">生成中...</span>
           </>
         ) : (
           <>
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
-            <span>PDF出力</span>
+            <span className="hidden sm:inline">PDF出力</span>
           </>
         )}
       </button>

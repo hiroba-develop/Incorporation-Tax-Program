@@ -100,16 +100,17 @@ export default function App() {
   const hasValidResult = simulationResult !== null;
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-slate-50">
+    <div className="flex flex-col min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50">
       <Header mode={mode} onModeChange={handleModeChange} />
 
       {/* デスクトップ: 2ペイン独立スクロール / モバイル: 縦積みページスクロール */}
-      <div className="flex-1 overflow-hidden flex flex-col lg:flex-row">
+      <div className="flex-1 flex flex-col lg:overflow-hidden lg:flex-row">
 
         {/* 左ペイン: 入力フォーム */}
         <div className="
           lg:w-[500px] lg:flex-shrink-0
           lg:overflow-y-auto lg:border-r lg:border-slate-200
+          border-b border-slate-200 lg:border-b-0
           overflow-x-hidden
           bg-white
         ">
@@ -129,7 +130,7 @@ export default function App() {
         </div>
 
         {/* 右ペイン: シミュレーション結果 */}
-        <div className="flex-1 lg:overflow-y-auto overflow-x-hidden bg-slate-50">
+        <div className="lg:flex-1 lg:overflow-y-auto overflow-x-hidden bg-slate-50">
           <div className="p-4 lg:p-6">
             <div className="flex items-center justify-between mb-4">
               <SectionHeader
