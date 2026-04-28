@@ -15,10 +15,13 @@
   },
   "dependencies": {
     "@react-oauth/google": "^0.12.2",
+    "@tailwindcss/vite": "^4.2.4",
     "@types/google.accounts": "^0.0.17",
     "axios": "^1.7.7",
     "date-fns": "^4.1.0",
     "google-auth-library": "^10.1.0",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^4.2.1",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.515.0",
     "react": "^19.1.0",
@@ -46,9 +49,9 @@
     "openapi-typescript-codegen": "^0.29.0",
     "postcss": "^8.5.5",
     "rimraf": "^5.0.8",
-    "tailwindcss": "^3.4.0",
-    "typescript": "~5.8.3",
+    "tailwindcss": "^4.2.4",
+    "typescript": "^6.0.3",
     "typescript-eslint": "^8.30.1",
-    "vite": "^6.3.5"
+    "vite": "^8.0.10"
   }
 }

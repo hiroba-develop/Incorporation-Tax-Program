@@ -1,42 +1,48 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --font-family-sans: "Noto Sans JP", sans-serif;
+
+  --color-primary: #2563eb;
+  --color-primary-light: #3b82f6;
+  --color-primary-dark: #1d4ed8;
+  --color-secondary: #10b981;
+  --color-secondary-light: #34d399;
+  --color-secondary-dark: #059669;
+  --color-accent: #f59e0b;
+  --color-background: #f8fafc;
+  --color-surface: #ffffff;
+  --color-text: #1e293b;
+  --color-text-muted: #64748b;
+  --color-border: #e2e8f0;
+  --color-personal: #3b82f6;
+  --color-corporate: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --color-success: #10b981;
+}
 
 @layer base {
   body {
-    @apply bg-background text-text;
-    font-family: "Noto Sans JP", sans-serif;
+    font-family: var(--font-family-sans);
+    background-color: var(--color-background);
+    color: var(--color-text);
   }
 }
 
-@layer components {
-  .btn-primary {
-    @apply bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors;
-  }
-
-  .btn-secondary {
-    @apply bg-sub1 text-text px-4 py-2 rounded-lg hover:bg-sub1/90 transition-colors;
-  }
-
-  .card {
-    @apply bg-white border border-border rounded-lg shadow-sm p-6;
-  }
-
-  .input-field {
-    @apply border border-border rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary focus:border-primary;
-  }
-
-  /* アニメーション定義 */
+@layer utilities {
   .animate-fadeIn {
-    animation: fadeIn 0.2s ease-out;
+    animation: fadeIn 0.3s ease-out;
   }
 
   @keyframes fadeIn {
     from {
       opacity: 0;
+      transform: translateY(8px);
     }
     to {
       opacity: 1;
+      transform: translateY(0);
     }
   }
 }
