@@ -9,10 +9,11 @@ import {
   ReferenceLine,
   ResponsiveContainer,
 } from "recharts";
-import type { BreakEvenAnalysis } from "../types/simulation";
+import type { BreakEvenAnalysis, DetailFormInputs } from "../types/simulation";
 
 interface BreakEvenChartProps {
   analysis: BreakEvenAnalysis;
+  inputs: DetailFormInputs;
 }
 
 interface TooltipPayload {
@@ -48,7 +49,7 @@ function CustomTooltip({
   );
 }
 
-export default function BreakEvenChart({ analysis }: BreakEvenChartProps) {
+export default function BreakEvenChart({ analysis, inputs }: BreakEvenChartProps) {
   const { dataPoints, crossoverRevenue } = analysis;
 
   return (
@@ -124,7 +125,7 @@ export default function BreakEvenChart({ analysis }: BreakEvenChartProps) {
       </ResponsiveContainer>
 
       <p className="text-xs text-slate-400 mt-2 text-center">
-        ※ 役員報酬は入力時の売上比率を維持して自動調整。経費は入力値を上限として売上に応じて調整。
+      ※ 役員報酬は入力値（{inputs.executiveCompensation}万円）で固定。売上が役員報酬を下回る場合は自動で上限調整。経費は入力値を上限として売上に応じて調整。
       </p>
     </div>
   );

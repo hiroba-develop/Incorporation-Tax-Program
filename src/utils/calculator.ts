@@ -361,23 +361,16 @@ export function simulate(inputs: DetailFormInputs): SimulationResult {
  * 損益分岐点分析（売上300〜5000万円、200万円刻み）
  */
 export function calcBreakEven(inputs: DetailFormInputs): BreakEvenAnalysis {
-  const baseRevenue = inputs.annualRevenue;
-  const baseExecutiveComp = inputs.executiveCompensation;
-  const executiveCompRatio =
-    baseRevenue > 0 ? baseExecutiveComp / baseRevenue : 0;
-
   const dataPoints: BreakEvenDataPoint[] = [];
 
   for (let revenue = 300; revenue <= 5000; revenue += 200) {
-    const adjustedExecComp =
-      Math.round((revenue * executiveCompRatio) / 50) * 50;
     const adjustedExpenses = Math.min(inputs.annualExpenses, revenue * 0.9);
 
     const adjustedInputs: DetailFormInputs = {
       ...inputs,
       annualRevenue: revenue,
       annualExpenses: adjustedExpenses,
-      executiveCompensation: Math.min(adjustedExecComp, revenue - adjustedExpenses),
+      executiveCompensation: Math.min(inputs.executiveCompensation, revenue - adjustedExpenses),
     };
 
     const grossProfit = revenue - adjustedExpenses;

@@ -146,7 +146,7 @@ export default function App() {
             {hasValidResult && simulationResult && breakEvenAnalysis ? (
               <div id="pdf-export-area" className="space-y-5 pb-6">
                 <ResultsSection result={simulationResult} />
-                <BreakEvenChart analysis={breakEvenAnalysis} />
+                <BreakEvenChart analysis={breakEvenAnalysis} inputs={activeInputs} />
                 <DisclaimerSection />
               </div>
             ) : (
